@@ -3,4 +3,4 @@ project(Hyperion)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(Hyperion main.cpp)
+add_executable(Hyperion src/main.cpp)
