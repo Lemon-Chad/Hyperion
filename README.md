@@ -8,5 +8,5 @@
 
 ## Specification
 
-Specifiaction found [here](/docs/spec.md)
+Specification found [here](/docs/spec.md)
 
