@@ -9,7 +9,7 @@
 |   fun   | Indicates a function definition will follow |
 |   cls   | Indicates a class definition will follow    |
 |   let   | Indicates a variable definition will follow |
-|   var   | Indicates a constant definition will follow |
+|   val   | Indicates a constant definition will follow |
 |   nll   | Represents a null value                     |
 
 ## Variables
@@ -18,7 +18,7 @@ let variable: type = value;
 let variable: type; // Defaults to nll.
 let variable: type!! = value; // Double bang means nll safety.
 
-var constant = value; // Defines a constant value.
+val constant = value; // Defines a constant value.
 ```
 
 ## Conditional Expressions
