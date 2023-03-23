@@ -1,5 +1,12 @@
 # Language Specification
 
+#### TODO
+- More conditionals (Switch?)
+- Loops
+- Functions
+- Classes
+- Libraries..?
+
 ## Keywords
 
 | Keyword | Purpose                                     |
