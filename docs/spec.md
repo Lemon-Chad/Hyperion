@@ -12,6 +12,8 @@
 |   val   | Indicates a constant definition will follow |
 |   nll   | Represents a null value                     |
 
+---
+
 ## Variables
 ```hyperion
 let variable: type = value;
@@ -20,6 +22,8 @@ let variable: type!! = value; // Double bang means nll safety.
 
 val constant = value; // Defines a constant value.
 ```
+
+---
 
 ## Conditional Expressions
 
@@ -35,6 +39,8 @@ A < B < C       // Compound inequalities supported.
 A || B          // A or B.
 A && B          // A and B.
 ```
+
+---
 
 ## Conditional Statements
 
