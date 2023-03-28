@@ -61,6 +61,7 @@ namespace hyperion {
                     token.length = 1;
                     token.line = line;
 
+                    // TODO
                     switch (current) {
                         case '+':
                             token.type = TOKEN_PLUS;
@@ -93,10 +94,12 @@ namespace hyperion {
             return text[index + dist];
         }
 
+        // TODO
         void make_number() {
 
         }
 
+        // TODO
         void make_identifier() {
 
         }
