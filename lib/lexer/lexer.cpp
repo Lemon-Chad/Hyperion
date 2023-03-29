@@ -11,7 +11,7 @@ namespace hyperion {
         return val;
     }
 
-    std::string show_token(Token* tok) {
+    std::string show_token_type(TokenType tok) {
         switch (tok.type) {
             case TOKEN_EOF:
                 return "EOF";
@@ -24,10 +24,13 @@ namespace hyperion {
             case TOKEN_PLUS:
                 return "+";
             case TOKEN_IDENTIFIER:
+                return "IDENTIFIER";
             case TOKEN_FLOAT:
+                return "FLOAT";
             case TOKEN_INT:
+                return "INT";
             case TOKEN_KEYWORD:
-                return get_token_value(tok);
+                return "KEYWORD";
             case TOKEN_SEMICOLON:
                 return ";";
             case TOKEN_DOUBLEEQ:

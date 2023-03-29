@@ -48,7 +48,7 @@ namespace hyperion {
     } Token;
 
     extern std::string get_token_value(Token* tok);
-    extern std::string show_token(Token* tok);
+    extern std::string show_token_type(TokenType tok);
 
     class Lexer {
     public:
