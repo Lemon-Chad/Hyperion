@@ -12,7 +12,7 @@ namespace hyperion {
     }
 
     std::string show_token_type(TokenType tok) {
-        switch (tok.type) {
+        switch (tok) {
             case TOKEN_EOF:
                 return "EOF";
             case TOKEN_LPAREN:
