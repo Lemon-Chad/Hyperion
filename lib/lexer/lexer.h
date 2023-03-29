@@ -31,6 +31,8 @@ namespace hyperion {
         TOKEN_KEYWORD, TOKEN_IDENTIFIER,
 
         TOKEN_NEWLINE, TOKEN_SEMICOLON,
+
+        TOKEN_EQ, TOKEN_DOUBLEEQ, TOKEN_LONGARROW,
     } TokenType;
 
     typedef struct {
@@ -46,6 +48,7 @@ namespace hyperion {
             this->text = text;
             this->index = -1;
             this->line = 0;
+            this->line_index = -1;
             this->len = strlen(text);
             this->current = ' ';
             this->advance();
@@ -80,10 +83,12 @@ namespace hyperion {
         size_t index;
         size_t len;
         int line;
+        int line_index;
         char current;
 
         void advance() {
             index++;
+            line_index++;
             current = text[index];
         }
 
@@ -110,6 +115,7 @@ namespace hyperion {
                 case '\n':
                     token->type = TOKEN_NEWLINE;
                     line++;
+                    line_index = 0;
                     advance();
                     break;
                 case ';':
@@ -117,7 +123,7 @@ namespace hyperion {
                     advance();
                     break;
                 default:
-                    fprintf(stderr, "Unrecognized character \'%c\'.\n", current);
+                    fprintf(stderr, "%d:%d | Unrecognized character \'%c\'.\n", line + 1, line_index + 1, current);
                     exit(0);
             }
         }
