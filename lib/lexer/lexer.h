@@ -47,11 +47,7 @@ namespace hyperion {
         int line_index;
     } Token;
 
-    std::string get_token_value(Token tok) {
-        char val[tok.length];
-        memcpy(val, tok.start, tok.length);
-        return val;
-    }
+    extern std::string get_token_value(Token tok);
 
     class Lexer {
     public:
