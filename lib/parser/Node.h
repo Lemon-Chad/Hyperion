@@ -41,7 +41,7 @@ namespace hyperion {
         BinOpNode(Node *left, Node *right, const TokenType op) :
             Node(AST_BINOP), left(left), right(right), op(op) {}
         std::string show() override {
-            std::string ops = &op;
+            std::string ops = show_token_type(op);
             std::string lhs = left->show();
             std::string rhs = right->show();
 
@@ -50,7 +50,7 @@ namespace hyperion {
     private:
         Node *left;
         Node *right;
-        const char op;
+        const TokenType op;
     };
 
     class UnaryOpNode: public Node {
