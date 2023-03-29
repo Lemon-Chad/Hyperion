@@ -35,6 +35,8 @@ namespace hyperion {
         TOKEN_EQ, TOKEN_DOUBLEEQ, TOKEN_LONGARROW,
 
         TOKEN_LPAREN, TOKEN_RPAREN,
+
+        TOKEN_EOF,
     } TokenType;
 
     typedef struct {
@@ -42,7 +44,14 @@ namespace hyperion {
         const char* start;
         size_t length;
         int line;
+        int line_index;
     } Token;
+
+    std::string get_token_value(Token tok) {
+        char val[tok.length];
+        memcpy(val, tok.start, tok.length);
+        return val;
+    }
 
     class Lexer {
     public:
@@ -71,11 +80,21 @@ namespace hyperion {
                     token.start = text + index;
                     token.length = 1;
                     token.line = line;
+                    token.line_index = line_index;
                     symbol_type(&token);
 
                     tokens.push_back(token);
                 }
             }
+
+            tokens.push_back(Token {
+                TOKEN_EOF,
+                text,
+                len,
+                0,
+                0,
+            });
+
             return tokens;
         }
 
@@ -89,9 +108,8 @@ namespace hyperion {
         char current;
 
         void advance() {
-            index++;
             line_index++;
-            current = text[index];
+            current = text[++index];
         }
 
         // Sets the type for the token
@@ -162,6 +180,7 @@ namespace hyperion {
             bool is_float = false;
             size_t length = 0;
             int ln = line;
+            int lni = line_index;
             do {
                 length++;
                 advance();
@@ -178,6 +197,7 @@ namespace hyperion {
                 text + index - length,
                 length,
                 ln,
+                lni,
             };
 
             tokens.push_back(token);
@@ -188,6 +208,7 @@ namespace hyperion {
         void make_identifier() {
             size_t length = 0;
             int ln = line;
+            int lni = line_index;
             do {
                 length++;
                 advance();
@@ -204,6 +225,7 @@ namespace hyperion {
                     text + index - length,
                     length,
                     ln,
+                    lni,
             };
 
             tokens.push_back(token);
