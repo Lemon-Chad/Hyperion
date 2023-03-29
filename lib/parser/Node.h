@@ -37,7 +37,7 @@ namespace hyperion {
 
     class BinOpNode: public Node {
     public:
-        BinOpNode(Node *left, Node *right, const char op) :
+        BinOpNode(Node *left, Node *right, const char* op) :
             Node(AST_BINOP), left(left), right(right), op(op) {}
         std::string show() override {
             std::string ops = &op;
