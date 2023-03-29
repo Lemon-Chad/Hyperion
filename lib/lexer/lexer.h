@@ -33,6 +33,8 @@ namespace hyperion {
         TOKEN_NEWLINE, TOKEN_SEMICOLON,
 
         TOKEN_EQ, TOKEN_DOUBLEEQ, TOKEN_LONGARROW,
+
+        TOKEN_LPAREN, TOKEN_RPAREN,
     } TokenType;
 
     typedef struct {
@@ -110,6 +112,14 @@ namespace hyperion {
                     break;
                 case '/':
                     token->type = TOKEN_SLASH;
+                    advance();
+                    break;
+                case '(':
+                    token->type = TOKEN_LPAREN;
+                    advance();
+                    break;
+                case ')':
+                    token->type = TOKEN_RPAREN;
                     advance();
                     break;
                 case '\n':
