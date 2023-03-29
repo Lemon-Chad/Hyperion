@@ -6,10 +6,11 @@
 #define HYPERION_LEXER_H
 
 #include <vector>
+#include <string>
 
 namespace hyperion {
 
-    const char* KEYWORDS[] = {
+    const std::string KEYWORDS[] = {
             "if",
             "els",
             "fun",
@@ -28,18 +29,20 @@ namespace hyperion {
         TOKEN_INT, TOKEN_FLOAT,
 
         TOKEN_KEYWORD, TOKEN_IDENTIFIER,
+
+        TOKEN_NEWLINE, TOKEN_SEMICOLON,
     } TokenType;
 
     typedef struct {
         TokenType type;
         const char* start;
-        int length;
+        size_t length;
         int line;
     } Token;
 
     class Lexer {
     public:
-        Lexer(char* text) {
+        explicit Lexer(char* text) {
             this->text = text;
             this->index = -1;
             this->line = 0;
@@ -54,25 +57,19 @@ namespace hyperion {
                     make_number();
                 } else if (isalpha(current)) {
                     make_identifier();
+                } else if (iswspace(current) && current != '\n') {
+                    advance();
                 } else {
+                    // This is for symbols, like +, -, =>, etc.
                     Token token;
 
-                    token.start = &current;
+                    token.start = text + index;
                     token.length = 1;
                     token.line = line;
+                    symbol_type(&token);
 
-                    // TODO
-                    switch (current) {
-                        case '+':
-                            token.type = TOKEN_PLUS;
-                            break;
-                        case '-':
-                            token.type = TOKEN_MINUS;
-                            break;
-                    }
                     tokens.push_back(token);
                 }
-                advance();
             }
             return tokens;
         }
@@ -80,9 +77,9 @@ namespace hyperion {
     private:
         char* text;
         std::vector<Token> tokens;
-        int index;
-        int line;
+        size_t index;
         size_t len;
+        int line;
         char current;
 
         void advance() {
@@ -90,18 +87,96 @@ namespace hyperion {
             current = text[index];
         }
 
+        // Sets the type for the token
+        // Used for symbols, like +, -, =>, etc.
+        void symbol_type(Token* token) {
+            switch (current) {
+                case '+':
+                    token->type = TOKEN_PLUS;
+                    advance();
+                    break;
+                case '-':
+                    token->type = TOKEN_MINUS;
+                    advance();
+                    break;
+                case '*':
+                    token->type = TOKEN_STAR;
+                    advance();
+                    break;
+                case '/':
+                    token->type = TOKEN_SLASH;
+                    advance();
+                    break;
+                case '\n':
+                    token->type = TOKEN_NEWLINE;
+                    line++;
+                    advance();
+                    break;
+                case ';':
+                    token->type = TOKEN_SEMICOLON;
+                    advance();
+                    break;
+                default:
+                    fprintf(stderr, "Unrecognized character \'%c\'.\n", current);
+                    exit(0);
+            }
+        }
+
         char peek(int dist) {
             return text[index + dist];
         }
 
-        // TODO
+        // Creates a number token and
+        // adds it to the list of tokens
         void make_number() {
+            bool is_float = false;
+            size_t length = 0;
+            int ln = line;
+            do {
+                length++;
+                advance();
 
+                if (current == '.' && !is_float) {
+                    is_float = true;
+                    length++;
+                    advance();
+                }
+            } while (isdigit(current));
+
+            Token token{
+                is_float ? TOKEN_FLOAT : TOKEN_INT,
+                text + index - length,
+                length,
+                ln,
+            };
+
+            tokens.push_back(token);
         }
 
-        // TODO
+        // Creates an identifier/keyword token
+        // and adds it to the list of tokens
         void make_identifier() {
+            size_t length = 0;
+            int ln = line;
+            do {
+                length++;
+                advance();
+            } while (isalnum(current));
 
+            char identc[length];
+            strncpy(identc, text + index - length, length);
+            std::string ident = identc;
+
+            bool is_keyword = std::find(std::begin(KEYWORDS), std::end(KEYWORDS), ident) != std::end(KEYWORDS);
+
+            Token token{
+                    is_keyword ? TOKEN_KEYWORD : TOKEN_IDENTIFIER,
+                    text + index - length,
+                    length,
+                    ln,
+            };
+
+            tokens.push_back(token);
         }
     };
 

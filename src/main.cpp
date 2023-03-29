@@ -1,9 +1,10 @@
 #include <iostream>
+#include "../lib/lexer/lexer.h"
 
 static char* read_file(const char* path) {
     FILE* file = std::fopen(path, "rb");
     if (file == nullptr) {
-        std::fprintf(stderr, "Could not open file \"%s\".\n", path);
+        fprintf(stderr, "Could not open file \"%s\".\n", path);
         exit(74);
     }
 
@@ -28,6 +29,29 @@ static char* read_file(const char* path) {
 }
 
 int main(int argc, char **argv) {
-    std::cout << "Hello, World!" << std::endl;
+    switch (argc) {
+        case 0:
+        case 1: {
+            printf("Enter a filename to compile it!");
+            break;
+        }
+        case 2: {
+            char *text = read_file(argv[1]);
+            hyperion::Lexer lexer = hyperion::Lexer(text);
+            std::vector<hyperion::Token> toks = lexer.lex();
+
+            for (hyperion::Token tok: toks) {
+                char val[tok.length];
+                memcpy(val, tok.start, tok.length);
+                printf("[%s, %u]\n", val, tok.type);
+            }
+
+            break;
+        }
+        default: {
+            fprintf(stderr, "Too many arguments, I don't know what to do!");
+            exit(0);
+        }
+    }
     return 0;
 }
