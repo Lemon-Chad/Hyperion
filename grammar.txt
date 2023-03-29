@@ -1,0 +1,8 @@
+
+// TOP LEVEL
+expression:         arithmetic
+// MATHS
+barithmetic:        barithmetic (('+' | '-') carithmetic)*
+carithmetic:        parens (('*' | '/')  parens)*
+parens:             atom | '(' expression ')'
+atom:            TOK_NUMBER
