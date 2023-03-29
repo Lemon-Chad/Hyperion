@@ -1,4 +1,3 @@
-#include <iostream>
 #include "../lib/lexer/lexer.h"
 
 static char* read_file(const char* path) {
@@ -43,7 +42,7 @@ int main(int argc, char **argv) {
             for (hyperion::Token tok: toks) {
                 char val[tok.length];
                 memcpy(val, tok.start, tok.length);
-                printf("[%s, %u]\n", val, tok.type);
+                printf("['%s', %u]\n", tok.type == hyperion::TOKEN_NEWLINE ? "\\n" : val, tok.type);
             }
 
             break;

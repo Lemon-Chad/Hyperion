@@ -122,6 +122,20 @@ namespace hyperion {
                     token->type = TOKEN_SEMICOLON;
                     advance();
                     break;
+                case '=':
+                    token->type = TOKEN_EQ;
+                    advance();
+                    if (current == '=') {
+                        token->type = TOKEN_DOUBLEEQ;
+                        advance();
+                        token->length++;
+                        if (current == '>') {
+                            token->type = TOKEN_LONGARROW;
+                            advance();
+                            token->length++;
+                        }
+                    }
+                    break;
                 default:
                     fprintf(stderr, "%d:%d | Unrecognized character \'%c\'.\n", line + 1, line_index + 1, current);
                     exit(0);
