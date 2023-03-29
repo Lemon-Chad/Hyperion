@@ -7,6 +7,7 @@
 
 #include <string>
 #include <format>
+#include "../lexer/lexer.h"
 
 namespace hyperion {
 
@@ -37,14 +38,14 @@ namespace hyperion {
 
     class BinOpNode: public Node {
     public:
-        BinOpNode(Node *left, Node *right, const char* op) :
+        BinOpNode(Node *left, Node *right, const TokenType op) :
             Node(AST_BINOP), left(left), right(right), op(op) {}
         std::string show() override {
             std::string ops = &op;
             std::string lhs = left->show();
             std::string rhs = right->show();
 
-            return "(" + lhs + ops + rhs + ")"
+            return "(" + lhs + ops + rhs + ")";
         }
     private:
         Node *left;
@@ -60,7 +61,7 @@ namespace hyperion {
             std::string ops = &op;
             std::string operands = operand->show();
 
-            return "(" + ops + operands + ")"
+            return "(" + ops + operands + ")";
         }
     private:
         Node *operand;
