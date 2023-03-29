@@ -1,4 +1,5 @@
 #include "../lib/lexer/lexer.h"
+#include "../lib/parser/Parser.h"
 
 static char* read_file(const char* path) {
     FILE* file = std::fopen(path, "rb");
@@ -40,9 +41,20 @@ int main(int argc, char **argv) {
             std::vector<hyperion::Token> toks = lexer.lex();
 
             for (hyperion::Token tok: toks) {
-                char val[tok.length];
-                memcpy(val, tok.start, tok.length);
-                printf("['%s', %u]\n", tok.type == hyperion::TOKEN_NEWLINE ? "\\n" : val, tok.type);
+                if (tok.type == hyperion::TOKEN_EOF) {
+                    break;
+                }
+                std::string val = hyperion::get_token_value(&tok);
+                printf("['%s', %u]", tok.type == hyperion::TOKEN_NEWLINE ? "\\n" : val.c_str(), tok.type);
+            }
+
+            printf("\n");
+
+            hyperion::Parser parser = hyperion::Parser(&toks[0], toks.size());
+            std::vector<hyperion::Node*> nodes = parser.parse();
+
+            for (hyperion::Node* node: nodes) {
+                printf("%s, ", node->show().c_str());
             }
 
             break;

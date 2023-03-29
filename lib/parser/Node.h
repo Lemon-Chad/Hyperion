@@ -26,14 +26,14 @@ namespace hyperion {
 
     class NumberNode: public Node {
     public:
-        NumberNode(const char* val, const bool is_float) :
+        NumberNode(const std::string& val, const bool is_float) :
             Node(AST_NUMBER), is_float(is_float), val(val) {}
         std::string show() override {
             return val;
         }
     private:
         const bool is_float;
-        const char* val;
+        const std::string val;
     };
 
     class BinOpNode: public Node {
