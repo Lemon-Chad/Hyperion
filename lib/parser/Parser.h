@@ -46,12 +46,14 @@ namespace hyperion {
                          [this] -> Node* { return this->carithmetic(); });
         }
 
-        Node* carithmetic() {
+        // Used in BinOp as lambda
+        [[maybe_unused]] Node* carithmetic() {
             return binop({ TOKEN_STAR, TOKEN_SLASH, },
                    [this] -> Node* { return this->parens(); });
         }
 
-        Node* parens() {
+        // Used in BinOp as lambda
+        [[maybe_unused]] Node* parens() {
             if (current->type == TOKEN_LPAREN) {
                 consume(TOKEN_LPAREN, "(");
                 Node* node = expression();
@@ -101,6 +103,7 @@ namespace hyperion {
             return tok;
         }
 
+        // Will be used eventually
         Token* peek(int dist) {
             return &tokens[index + dist];
         }
