@@ -5,4 +5,4 @@ expression:         arithmetic
 barithmetic:        barithmetic (('+' | '-') carithmetic)*
 carithmetic:        parens (('*' | '/')  parens)*
 parens:             atom | '(' expression ')'
-atom:            TOK_NUMBER
+atom:               TOK_NUMBER
