@@ -78,7 +78,7 @@ namespace hyperion {
                 consume(TOKEN_FLOAT, "a number");
             std::string val = get_token_value(current);
             bool is_float = val.find('.', 0) != std::string::npos;
-            Node* node = new NumberNode(val.c_str(), is_float);
+            Node* node = new NumberNode(val, is_float);
             advance();
             return node;
         }
